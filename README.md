@@ -1,4 +1,4 @@
-# YouTube Summarizer
+# YT Summary
 
 This is a simple Python application that allows you to download YouTube video transcripts and summarize them using the OpenRouter API.
 
@@ -7,7 +7,7 @@ This is a simple Python application that allows you to download YouTube video tr
 *   Download transcripts from YouTube videos and playlists.
 *   Summarize transcripts using a configurable API (OpenRouter).
 *   Save summaries to Markdown files.
-*   Configurable API key, user prompt, system prompt, and context.
+*   Configurable user prompt, system prompt, and context.
 
 ## Getting Started
 
