@@ -46,6 +46,10 @@ class YoutubeSummarizer:
         self.summary_text = scrolledtext.ScrolledText(root, width=80, height=20, wrap=tk.WORD)
         self.summary_text.pack()
 
+        # Progress Bar
+        self.progress_bar = ttk.Progressbar(root, orient="horizontal", length=400, mode="determinate")
+        self.progress_bar.pack_forget() # Hide initially
+
         # Action Buttons
         self.action_frame = tk.Frame(root)
         self.action_frame.pack()
@@ -98,7 +102,8 @@ class YoutubeSummarizer:
             return
 
         self.summary_text.delete(1.0, tk.END)
-        self.summary_text.insert(tk.END, "Downloading transcript(s) and summarizing...")
+        self.progress_bar.pack()
+        self.progress_bar.start()
         self.root.update_idletasks()
 
         try:
@@ -121,8 +126,7 @@ class YoutubeSummarizer:
                 for entry in entries:
                     video_id = entry.get("id")
                     video_title = entry.get("title", "Unknown Title")
-                    self.summary_text.insert(tk.END, f"Downloading transcript for: {video_title}...\n")
-                    self.root.update_idletasks()
+                    
                     
                     ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
                     transcript_file = f"{video_id}.en.vtt"
@@ -133,8 +137,7 @@ class YoutubeSummarizer:
                         
                         os.remove(transcript_file)
 
-                        self.summary_text.insert(tk.END, f"Summarizing: {video_title}...\n")
-                        self.root.update_idletasks()
+                        
 
                         summary = self.get_summary(transcript)
                         self.summary_text.insert(tk.END, f"\n--- Summary for: {video_title} ---\n\n")
@@ -143,8 +146,13 @@ class YoutubeSummarizer:
                     else:
                         self.summary_text.insert(tk.END, f"Could not find transcript for: {video_title}\n\n")
 
+            self.progress_bar.stop()
+            self.progress_bar.pack_forget()
+
 
         except Exception as e:
+            self.progress_bar.stop()
+            self.progress_bar.pack_forget()
             messagebox.showerror("Error", f"An error occurred: {e}")
 
 
