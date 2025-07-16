@@ -26,7 +26,7 @@ This is a simple Python application that allows you to download YouTube video tr
 2.  **Navigate to the project directory:**
 
     ```bash
-    cd /path/to/Youtubesummaries
+    cd .\yt-summary\
     ```
 
 3.  **Install the required Python packages:**
